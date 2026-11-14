@@ -1,0 +1,10 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict'),cp=require('child_process');
+const d=vm.runInNewContext(fs.readFileSync('story-data.js','utf8')+';STORY');
+for(const f of ['player.js','story-data.js'])new vm.Script(fs.readFileSync(f,'utf8'),{filename:f});
+let time=0;for(const s of d.timeline){assert.equal(s.start,time);assert(s.duration>0);time+=s.duration;if(s.i!==undefined)assert(d.chapters[s.i]);if(s.j!==undefined)assert(d.chapters[s.i].slides[s.j]);}assert.equal(time,d.total);
+assert.deepEqual(Array.from(d.timeline.filter(s=>s.page<38),s=>s.page),Array.from({length:37},(_,i)=>i+1));
+const photos=new Set(['image1.jpeg','image51.jpeg']);for(const c of d.chapters){photos.add(c.cover);for(const s of c.slides)for(const f of s.photos)photos.add(f);}for(const f of photos)assert(fs.statSync('media/album/'+f).size>0,f);
+for(const f of ['media/cover.mp4','media/recuerdo-2014.mp4','media/soundtrack.mp3','media/las-mismas-de-siempre.mp4'])assert(fs.statSync(f).size>0,f);
+const meta=JSON.parse(cp.execFileSync('ffprobe',['-v','error','-show_entries','format=duration','-of','json','media/las-mismas-de-siempre.mp4']));assert(Math.abs(+meta.format.duration-d.total/1000)<.1);
+assert(JSON.stringify(d.credits).includes('Charlott Catalán'));assert(!JSON.stringify(d.chapters).includes('Catalán'));
+console.log(`OK: 37 páginas narrativas, créditos 38–41, ${photos.size} imágenes, ${d.total/1000} s, MP4 y archivos completos.`);

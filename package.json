@@ -1,0 +1,11 @@
+{
+  "name": "las-mismas-de-siempre",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "check": "node scripts/check.cjs",
+    "audio": "node scripts/mix-audio.cjs",
+    "video": "node scripts/render-video.cjs"
+  },
+  "devDependencies": {"sharp": "0.35.5"}
+}

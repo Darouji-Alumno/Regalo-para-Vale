@@ -1,0 +1,6 @@
+.build/
+node_modules/
+assets-source.json
+canva-source.json
+source-inspect.txt
+prepare-assets.cjs
