@@ -24,6 +24,37 @@ try {
         $raw=$shape.TextFrame.TextRange.Text
         $t=$raw.Trim()
         if(-not $t) {continue}
+        if($scene.page -eq 8 -and $shape.Name -eq 'TextBox 5') {
+          $shape.TextFrame.TextRange.Text='Incluso en ese entonces...'
+          $shape.Left=0;$shape.Width=$deck.PageSetup.SlideWidth
+          $shape.TextFrame.TextRange.ParagraphFormat.Alignment=2
+          continue
+        }
+        if($scene.page -eq 8 -and $shape.Name -eq 'TextBox 16') {$shape.TextFrame.TextRange.Text='';continue}
+        if($scene.page -eq 22 -and $shape.Name -eq 'TextBox 3') {
+          $shape.TextFrame.TextRange.Text='El mundo era nuestro'
+          $shape.TextFrame.TextRange.Font.Name='Georgia'
+          $shape.TextFrame.TextRange.Font.Size=23
+          $shape.TextFrame.TextRange.Font.Bold=0
+          continue
+        }
+        if($scene.page -eq 22 -and $shape.Name -eq 'TextBox 20') {$shape.TextFrame.TextRange.Text='';continue}
+        if($scene.page -eq 23 -and $shape.Name -eq 'TextBox 4') {
+          $shape.TextFrame.TextRange.Text='El mundo es nuestro'
+          $shape.TextFrame.TextRange.Font.Name='Georgia'
+          $shape.TextFrame.TextRange.Font.Size=23
+          $shape.TextFrame.TextRange.Font.Bold=0
+          continue
+        }
+        if($scene.page -eq 23 -and $shape.Name -eq 'TextBox 5') {
+          $shape.TextFrame.TextRange.Text='Algunos no tanto...'
+          $shape.TextFrame.TextRange.Font.Name='Georgia'
+          $shape.TextFrame.TextRange.Font.Size=21
+          $shape.TextFrame.TextRange.Font.Italic=-1
+          $shape.Left=0;$shape.Width=$deck.PageSetup.SlideWidth
+          $shape.TextFrame.TextRange.ParagraphFormat.Alignment=2
+          continue
+        }
         if($t -match '^0[1-4]\s*/') {$shape.TextFrame.TextRange.Text=('0{0} / {1}' -f $i,$chapter.era);continue}
         if($t -match '^(Pequeñas aventuras|Ya no tan pequeñas|El mundo era nuestro|Treinta, y las de siempre)$') {$shape.TextFrame.TextRange.Text=$chapter.title;continue}
         if($t -match '^(PLAY|CHARLOTT &|SP\s|RECUERDOS PARA GUARDAR)') {continue}
